@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p style="border: 1px solid black;width: 600px;height: 800px;" id="talk"></p>
+<input id="message"/>
+<button id="sentButton" onclick="sendMsg()">发送</button>
+
+</body>
+
+<script>
+    let ws = new WebSocket("ws://localhost:8080/ws1");
+    //ws链接建立时调用
+    ws.onopen = function () {
+        // ws.send("hello 服务端")
+    }
+
+    ws.onmessage = function (message) {
+        //收到信息时展示到p标签
+        document.getElementById("talk").innerHTML = message.data;
+    }
+
+    function sendMsg() {
+        ws.send(document.getElementById("message").value);
+        //发送完清空输入框
+        document.getElementById("message").value = "";
+    }
+</script>
+</html>
